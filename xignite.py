@@ -80,24 +80,13 @@ class Xignite:
 
 
 if __name__ == '__main__':
-
-    databaseToUse = 'xignite'
     path = r'C:\Users\JD\Google Drive\Quantitative Trading\Data'
     logging.basicConfig(level=logging.DEBUG)
-
-    if databaseToUse == 'xignite':
-        tickers = ['AAPL', 'MSFT', 'FB', 'GOOG', 'GOOGL', 'INTC', 'TSLA', 'AMZN', 'NFLX', 'NVDA', 'V', 'MA', 'BAC', 'GS', 'MS', 'WFC', 'BRK.B', 'IBM', 'JPM', 'AXP']
-        downloader = Xignite()
-        for ticker in tickers:
-            adj = downloader.download_adj_equity(tickers=[ticker])
-            nonadj = downloader.download_non_adj_equity(tickers=[ticker])
-            prices = pd.concat([adj, nonadj], axis=1, join='inner')
-            prices.to_csv(os.path.join(path, ticker + '.csv'))
-    elif databaseToUse == 'quandl':
-        symbols = ['WIKI/AAPL', 'WIKI/TSLA', 'WIKI/FB', 'WIKI/NFLX', 'WIKI/NVDA', 'WIKI/AMZN', 'WIKI/GOOGL',
-                   'WIKI/BAC', 'WIKI/C', 'WIKI/GS', 'WIKI/WFC', 'WIKI/MS']
-        for symbol in symbols:
-            print(symbol)
-            data = quandl.get(symbol)
-            ticker = symbol.split('/')[1]
-            data.to_csv(os.path.join(path, ticker + '.csv'))
+    tickers = ['AAPL', 'MSFT', 'FB', 'GOOG', 'GOOGL', 'INTC', 'TSLA', 'AMZN', 'NFLX', 'NVDA', 'V', 'MA', 'BAC', 'GS', 'MS', 'WFC', 'BRK.B', 'IBM', 'JPM', 'AXP']
+    downloader = Xignite()
+    for ticker in tickers:
+        logging.debug('Downloading', ticker, '...')
+        adj = downloader.download_adj_equity(tickers=[ticker])
+        nonadj = downloader.download_non_adj_equity(tickers=[ticker])
+        prices = pd.concat([adj, nonadj], axis=1, join='inner')
+        prices.to_csv(os.path.join(path, ticker + '.csv'))
