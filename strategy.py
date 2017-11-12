@@ -1,5 +1,6 @@
 import pytz
 import datetime
+import logging
 import pandas as pd
 from ibapi.order import Order
 from ibapi.contract import Contract
@@ -37,8 +38,8 @@ class UsoXle:
         currSpread = yPrice - self.params['OLS Beta', 'UsoXle'] * xPrice - self.params.loc['OLS Const', 'UsoXle']
         predictedSpread = self.params.loc['AR(1)', 'UsoXle'] * currSpread
         if predictedSpread > currSpread:
-            print('Buy spread at', currSpread, 'for predicted up move to', predictedSpread)
-            print('Buy XLE at', yPrice, 'Sell USO at', xPrice)
+            logging.debug('Buy spread at', currSpread, 'for predicted up move to', predictedSpread)
+            logging.debug('Buy XLE at', yPrice, 'Sell USO at', xPrice)
 
             xleO, usoO = Order(), Order()
             xleO.action, usoO.action = 'BUY', 'SELL'
@@ -47,8 +48,8 @@ class UsoXle:
             xleO.lmtPrice, usoO.lmtPrice = yPrice, xPrice
 
         elif predictedSpread < currSpread:
-            print('Sell spread at', currSpread, 'for predicted down move to', predictedSpread)
-            print('Sell XLE at', yPrice, 'Buy USO at', xPrice)
+            logging.debug('Sell spread at', currSpread, 'for predicted down move to', predictedSpread)
+            logging.debug('Sell XLE at', yPrice, 'Buy USO at', xPrice)
 
             xleO, usoO = Order(), Order()
             xleO.action, usoO.action = 'SELL', 'BUY'
@@ -57,4 +58,4 @@ class UsoXle:
             xleO.lmtPrice, usoO.lmtPrice = yPrice, xPrice
 
         else:
-            print('No order.')
+            logging.debug('No order.')

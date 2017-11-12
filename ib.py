@@ -1,4 +1,5 @@
 import strategy
+import logging
 from threading import Thread
 from ibapi.client import EClient
 from ibapi.wrapper import EWrapper, iswrapper
@@ -33,7 +34,7 @@ class Ib(EClient, EWrapper):
                     reqId = self.idHandler.nxtId()
                     s.ids.append(reqId)
                     self.strategyIds[reqId] = None
-                    print('NonOrderRequest', '#' + str(reqId), ':', 'Get data for', c.symbol)
+                    logging.debug('NonOrderRequest', '#' + str(reqId), ':', 'Get data for', c.symbol)
                     self.reqMktData(reqId=reqId, contract=c, genericTickList='',
                                     snapshot=False, regulatorySnapshot=False, mktDataOptions=[])
 

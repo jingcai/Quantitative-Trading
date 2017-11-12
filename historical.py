@@ -1,4 +1,6 @@
 import os
+import quandl
+import logging
 import pandas as pd
 
 
@@ -24,7 +26,7 @@ class Xignite:
 
         combined = []
         for ticker in tickers:
-            print('Getting adjusted data for', ticker)
+            logging.debug('Getting adjusted data for', ticker)
             if ' ' in ticker:
                 adj_ticker = str.replace(ticker, ' ', '%20')
             else:
@@ -54,7 +56,7 @@ class Xignite:
 
         combined = []
         for ticker in tickers:
-            print('Getting non adjusted data for', ticker)
+            logging.debug('Getting non adjusted data for', ticker)
             if ' ' in ticker:
                 adj_ticker = str.replace(ticker, ' ', '%20')
             else:
@@ -81,6 +83,7 @@ if __name__ == '__main__':
 
     databaseToUse = 'xignite'
     path = r'C:\Users\JD\Google Drive\Quantitative Trading\Data'
+    logging.basicConfig(level=logging.DEBUG)
 
     if databaseToUse == 'xignite':
         tickers = ['AAPL', 'MSFT', 'FB', 'GOOG', 'GOOGL', 'INTC', 'TSLA', 'AMZN', 'NFLX', 'NVDA', 'V', 'MA', 'BAC', 'GS', 'MS', 'WFC', 'BRK.B', 'IBM', 'JPM', 'AXP']
