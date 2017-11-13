@@ -5,6 +5,9 @@ import pandas as pd
 
 
 class Xignite:
+
+    __slots__ = ['equitiesUrl1', 'equitiesUrl2', 'equitiesUrl3', 'equitiesUrl4', 'equitiesUrl5', 'equitiesUrl6']
+
     def __init__(self):
         self.equitiesUrl1 = 'http://www.xignite.com/xGlobalHistorical.csv/GetGlobalHistoricalQuotesRange?' + \
                             'IdentifierType='
