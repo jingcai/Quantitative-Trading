@@ -1,5 +1,5 @@
 from sklearn.base import clone
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
@@ -10,7 +10,10 @@ import numpy as np
 def tscv_regression(x, y, n_cv_sets, model):
 
     # Preparing data structures for capturing results
+    train_actual, test_actual = [], []
+    train_preds, test_preds = [], []
     train_errors, test_errors = [], []
+    train_r2_scores, test_r2_scores = [], []
 
     # Preparing datasets for time series split
     x_copy, y_copy = np.copy(x), np.copy(y)
@@ -28,16 +31,19 @@ def tscv_regression(x, y, n_cv_sets, model):
 
         # Fitting the model
         model = clone(model)
-        model.fit(train_x, train_y)
+        model.fit(scaled_train_x, train_y)
 
         # Predicting with model
         train_pred, test_pred = model.predict(scaled_train_x), model.predict(scaled_test_x)
-        train_rmse = np.sqrt(mean_squared_error(train_y, train_pred))
-        test_rmse = np.sqrt(mean_squared_error(test_y, test_pred))
-        train_errors.append(train_rmse)
-        test_errors.append(test_rmse)
+        train_actual.append(train_y); test_actual.append(test_y)
+        train_preds.append(train_pred); test_preds.append(test_pred)
+        train_errors.append(np.sqrt(mean_squared_error(train_y, train_pred)))
+        test_errors.append(np.sqrt(mean_squared_error(test_y, test_pred)))
+        train_r2_scores.append(r2_score(train_y, train_pred))
+        test_r2_scores.append(r2_score(test_y, test_pred))
 
-    return train_errors, test_errors
+    return train_actual, train_preds, test_actual, test_preds, \
+           train_errors, test_errors, train_r2_scores, test_r2_scores
 
 
 def plot_rmse(train_errors, test_errors):

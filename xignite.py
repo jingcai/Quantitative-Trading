@@ -85,7 +85,7 @@ class Xignite:
 if __name__ == '__main__':
     path = r'C:\Users\JD\Google Drive\Quantitative Trading\Data'
     logging.basicConfig(level=logging.DEBUG)
-    tickers = ['AAPL', 'MSFT', 'FB', 'GOOG', 'GOOGL', 'INTC', 'TSLA', 'AMZN', 'NFLX', 'NVDA', 'V', 'MA', 'BAC', 'GS', 'MS', 'WFC', 'BRK.B', 'IBM', 'JPM', 'AXP']
+    tickers = ['WEED.XTSE', 'ACB.XTSE', 'APH.XTSE', 'FIRE.XTSE']
     downloader = Xignite()
     for ticker in tickers:
         logging.debug('Downloading', ticker, '...')
